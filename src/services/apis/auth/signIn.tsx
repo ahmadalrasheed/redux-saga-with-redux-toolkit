@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { requestAsyncThunk, responseAsyncThunk } from '../../templates';
 
 interface UsersState {
     entities: [];
     loading: 'idle' | 'pending' | 'succeeded' | 'failed';
     currentRequestId: undefined;
     error: [];
+    userInfo: {};
 }
 
 const initialState = {
@@ -13,15 +13,8 @@ const initialState = {
     entities: {},
     currentRequestId: undefined,
     error: [],
+    userInfo: {},
 } as UsersState;
-
-export const signIn = () => {
-    return requestAsyncThunk({
-        storeName: 'auth',
-        _url: `auth/login`,
-        method: 'POST',
-    });
-};
 
 export const authSlice = createSlice({
     name: 'auth',
@@ -30,6 +23,16 @@ export const authSlice = createSlice({
         resetAction: () => {
             return initialState;
         },
+        requestAuth: (state, action) => {
+            state.userInfo = action.payload;
+            state.loading = 'pending';
+        },
+        succeededAuth: (state, action) => {
+            state.entities = action.payload;
+            state.loading = 'succeeded';
+        },
+        failedAuth: (state) => {
+            state.loading = 'failed';
+        },
     },
-    extraReducers: responseAsyncThunk(signIn()),
 });

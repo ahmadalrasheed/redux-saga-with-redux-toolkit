@@ -1,5 +1,4 @@
 import axios from './axios';
-import requestAsyncThunk from './requestAsyncThunk';
-import responseAsyncThunk from './responseAsyncThunk';
+import authSaga from './sagas';
 
-export { axios, requestAsyncThunk, responseAsyncThunk };
+export { axios, authSaga };
